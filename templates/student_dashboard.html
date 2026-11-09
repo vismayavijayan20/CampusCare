@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard | CampusCare</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            background: #f4f7fc;
+            font-family: 'Segoe UI', sans-serif;
+            color: #263445;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            background: linear-gradient(135deg, #0756d8, #2879f5);
+            padding: 16px 35px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logout-btn {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 9px 20px;
+        }
+
+        /* Main container */
+
+        .main-container {
+            max-width: 1450px;
+            margin: auto;
+            padding: 35px 25px;
+        }
+
+        /* Welcome section */
+
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .welcome-section p {
+            color: #718096;
+            font-size: 16px;
+        }
+
+        /* Submit button */
+
+        .submit-btn {
+            background: linear-gradient(135deg, #0866e9, #3687ff);
+            border: none;
+            padding: 12px 22px;
+            border-radius: 9px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(8,102,233,0.25);
+        }
+
+        /* Dashboard cards */
+
+        .stat-card {
+            background: white;
+            border: none;
+            border-radius: 13px;
+            padding: 23px;
+            min-height: 145px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            border-left: 5px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+        }
+
+        .stat-card h6 {
+            color: #718096;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .stat-card h2 {
+            font-size: 34px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .total-card {
+            border-left-color: #2675ef;
+        }
+
+        .pending-card {
+            border-left-color: #f0ad32;
+        }
+
+        .progress-card {
+            border-left-color: #17a2b8;
+        }
+
+        .resolved-card {
+            border-left-color: #20a36a;
+        }
+
+        .stat-icon {
+            font-size: 26px;
+            color: #2675ef;
+        }
+
+        /* Notifications */
+
+        .notification-card {
+            background: white;
+            border: none;
+            border-radius: 13px;
+            padding: 23px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+        }
+
+        .notification-item {
+            background: #edf6ff;
+            border-left: 4px solid #2675ef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .notification-item p {
+            margin-bottom: 5px;
+        }
+
+        .notification-time {
+            color: #718096;
+            font-size: 12px;
+        }
+
+        /* Complaint table */
+
+        .table-card {
+            background: white;
+            border: none;
+            border-radius: 13px;
+            padding: 23px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .table thead th {
+            background: #202b3c;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background: #f3f7ff;
+        }
+
+        .status-badge {
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .pending-badge {
+            background: #fff1cf;
+            color: #946200;
+        }
+
+        .progress-badge {
+            background: #d8f2f8;
+            color: #087990;
+        }
+
+        .resolved-badge {
+            background: #d5f5e3;
+            color: #146c43;
+        }
+
+        /* Section headings */
+
+        .section-title {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        /* Footer */
+
+        .footer {
+            text-align: center;
+            color: #8793a5;
+            padding: 25px;
+            font-size: 13px;
+        }
+
+        /* Responsive design */
+
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 12px 18px;
+            }
+
+            .main-container {
+                padding: 25px 15px;
+            }
+
+            .welcome-section h2 {
+                font-size: 24px;
+            }
+
+            .stat-card {
+                min-height: 120px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- Navigation Bar -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="{{ url_for('student_dashboard') }}">
+                <i class="bi bi-shield-check"></i>
+                CollegeCare
+            </a>
+
+            <a href="{{ url_for('logout') }}"
+               class="btn btn-light logout-btn">
+
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="main-container">
+
+
+        <!-- Flash Messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <!-- Welcome Section -->
+
+        <div class="welcome-section">
+
+            <h2>
+                Welcome, {{ current_user.name }}!
+            </h2>
+
+            <p>
+                Manage your complaints and track their progress.
+            </p>
+
+            <a href="{{ url_for('submit_complaint') }}"
+               class="btn btn-primary submit-btn">
+
+                <i class="bi bi-plus-circle"></i>
+                Submit New Complaint
+
+            </a>
+
+        </div>
+
+
+        <!-- Statistics Section -->
+
+        <h5 class="section-title">
+            Complaint Overview
+        </h5>
+
+        <div class="row g-4 mb-4">
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card total-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>Total Complaints</h6>
+
+                        <i class="bi bi-clipboard-data stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ total }}</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card pending-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>Pending</h6>
+
+                        <i class="bi bi-clock-history stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ pending }}</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card progress-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>In Progress</h6>
+
+                        <i class="bi bi-arrow-repeat stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ in_progress }}</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card resolved-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>Resolved</h6>
+
+                        <i class="bi bi-check-circle stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ resolved }}</h2>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- Notification Section -->
+
+        <div class="notification-card">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="section-title mb-0">
+
+                    <i class="bi bi-bell text-primary"></i>
+                    Notifications
+
+                </h5>
+
+                <span class="badge bg-primary rounded-pill">
+
+                    {{ notifications|length }}
+
+                </span>
+
+            </div>
+
+
+            {% if notifications %}
+
+                {% for notification in notifications %}
+
+                    <div class="notification-item">
+
+                        <p>
+
+                            <i class="bi bi-info-circle text-primary"></i>
+
+                            {{ notification.message }}
+
+                        </p>
+
+                        <span class="notification-time">
+
+                            <i class="bi bi-clock"></i>
+
+                            {{ notification.created_at.strftime('%d-%m-%Y %H:%M') }}
+
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="text-muted mt-3 mb-0">
+
+                    <i class="bi bi-bell-slash"></i>
+
+                    No notifications available.
+
+                </p>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- Complaints Table -->
+
+        <div class="table-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <h5 class="section-title mb-0">
+
+                    <i class="bi bi-list-check text-primary"></i>
+
+                    My Complaints
+
+                </h5>
+
+                <span class="badge bg-primary">
+
+                    {{ total }} Total
+
+                </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Title</th>
+
+                            <th>Category</th>
+
+                            <th>Priority</th>
+
+                            <th>Status</th>
+
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for complaint in complaints %}
+
+                        <tr>
+
+                            <td>{{ complaint.complaint_id }}</td>
+
+                            <td class="fw-semibold">
+
+                                {{ complaint.title }}
+
+                            </td>
+
+                            <td>{{ complaint.category }}</td>
+
+                            <td>
+
+                                <span class="badge bg-secondary">
+
+                                    {{ complaint.priority }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {% if complaint.status == 'Resolved' %}
+
+                                    <span class="status-badge resolved-badge">
+
+                                        <i class="bi bi-check-circle"></i>
+
+                                        Resolved
+
+                                    </span>
+
+                                {% elif complaint.status == 'In Progress' %}
+
+                                    <span class="status-badge progress-badge">
+
+                                        <i class="bi bi-arrow-repeat"></i>
+
+                                        In Progress
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-badge pending-badge">
+
+                                        <i class="bi bi-clock"></i>
+
+                                        Pending
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ complaint.created_at.strftime('%d-%m-%Y') }}
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="6" class="text-center text-muted py-4">
+
+                                <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+
+                                No complaints submitted yet.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        © 2026 CollegeCare | College Complaint Management System
+
+    </footer>
+
+
+    <!-- Bootstrap JavaScript -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+</body>
+
+</html>

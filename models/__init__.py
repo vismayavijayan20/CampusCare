@@ -1,0 +1,1 @@
+from .complaint import db, User, Complaint, Notification

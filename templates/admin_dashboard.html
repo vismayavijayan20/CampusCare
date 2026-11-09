@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | CampusCare</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            background: #f4f7fc;
+            font-family: 'Segoe UI', sans-serif;
+            color: #263445;
+        }
+
+        /* Navigation */
+
+        .navbar {
+            background: linear-gradient(135deg, #172536, #263b55);
+            padding: 16px 35px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            border-radius: 8px;
+            padding: 9px 20px;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+
+        .main-container {
+            max-width: 1500px;
+            margin: auto;
+            padding: 35px 25px;
+        }
+
+        /* Welcome Section */
+
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .welcome-section p {
+            color: #718096;
+        }
+
+        /* Statistics Cards */
+
+        .stat-card {
+            background: white;
+            border: none;
+            border-radius: 13px;
+            padding: 23px;
+            min-height: 145px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            border-left: 5px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+        }
+
+        .stat-card h6 {
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .stat-card h2 {
+            font-size: 34px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .stat-icon {
+            font-size: 27px;
+            color: #2675ef;
+        }
+
+        .total-card {
+            border-left-color: #2675ef;
+        }
+
+        .pending-card {
+            border-left-color: #f0ad32;
+        }
+
+        .progress-card {
+            border-left-color: #17a2b8;
+        }
+
+        .resolved-card {
+            border-left-color: #20a36a;
+        }
+
+        /* Complaint Table */
+
+        .table-card {
+            background: white;
+            border-radius: 13px;
+            padding: 23px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .section-title {
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .table thead th {
+            background: #202b3c;
+            color: white;
+            padding: 15px;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background: #f3f7ff;
+        }
+
+        /* Status Badges */
+
+        .status-badge {
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .pending-badge {
+            background: #fff1cf;
+            color: #946200;
+        }
+
+        .progress-badge {
+            background: #d8f2f8;
+            color: #087990;
+        }
+
+        .resolved-badge {
+            background: #d5f5e3;
+            color: #146c43;
+        }
+
+        /* Update Form */
+
+        .update-form {
+            min-width: 135px;
+        }
+
+        .update-form .form-select {
+            margin-bottom: 8px;
+            font-size: 13px;
+            border-radius: 7px;
+        }
+
+        .update-btn {
+            background: #1769e8;
+            border: none;
+            border-radius: 7px;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .update-btn:hover {
+            background: #0753c7;
+        }
+
+        /* Image Link */
+
+        .image-link {
+            text-decoration: none;
+            font-weight: 600;
+            color: #1769e8;
+            white-space: nowrap;
+        }
+
+        .image-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+
+        .footer {
+            text-align: center;
+            color: #8793a5;
+            padding: 25px;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+
+        @media(max-width: 768px) {
+
+            .navbar {
+                padding: 12px 18px;
+            }
+
+            .main-container {
+                padding: 25px 15px;
+            }
+
+            .welcome-section h2 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation Bar -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="{{ url_for('admin_dashboard') }}">
+
+                <i class="bi bi-shield-lock"></i>
+
+                CampusCare Admin
+
+            </a>
+
+            <a href="{{ url_for('logout') }}"
+               class="btn btn-light logout-btn">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="main-container">
+
+
+        <!-- Flash Messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <!-- Welcome Section -->
+
+        <div class="welcome-section">
+
+            <h2>Administrator Dashboard</h2>
+
+            <p>
+
+                Welcome, {{ current_user.name }}!
+
+                <br>
+
+                Monitor student complaints and manage their resolution.
+
+            </p>
+
+        </div>
+
+
+        <!-- Statistics -->
+
+        <h5 class="section-title mb-3">
+
+            <i class="bi bi-bar-chart-line text-primary"></i>
+
+            Complaint Analytics
+
+        </h5>
+
+
+        <div class="row g-4 mb-4">
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card total-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>Total Complaints</h6>
+
+                        <i class="bi bi-clipboard-data stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ total }}</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card pending-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>Pending</h6>
+
+                        <i class="bi bi-clock-history stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ pending }}</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card progress-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>In Progress</h6>
+
+                        <i class="bi bi-arrow-repeat stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ in_progress }}</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="stat-card resolved-card">
+
+                    <div class="d-flex justify-content-between">
+
+                        <h6>Resolved</h6>
+
+                        <i class="bi bi-check-circle stat-icon"></i>
+
+                    </div>
+
+                    <h2>{{ resolved }}</h2>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- Complaint Management Table -->
+
+        <div class="table-card">
+
+
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+
+                <h5 class="section-title mb-0">
+
+                    <i class="bi bi-list-check text-primary"></i>
+
+                    All Student Complaints
+
+                </h5>
+
+                <span class="badge bg-primary rounded-pill">
+
+                    {{ total }} Total Complaints
+
+                </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+
+                <table class="table table-hover align-middle">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Student</th>
+
+                            <th>Title</th>
+
+                            <th>Category</th>
+
+                            <th>Description</th>
+
+                            <th>Image</th>
+
+                            <th>Status</th>
+
+                            <th>Priority</th>
+
+                            <th>Update</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for complaint in complaints %}
+
+
+                        <tr>
+
+
+                            <td class="fw-semibold">
+
+                                #{{ complaint.complaint_id }}
+
+                            </td>
+
+
+                            <td class="fw-semibold">
+
+                                {{ complaint.student.name }}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ complaint.title }}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge bg-light text-dark">
+
+                                    {{ complaint.category }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td style="min-width: 200px; max-width: 280px;">
+
+                                {{ complaint.description }}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if complaint.image %}
+
+                                    <a href="{{ url_for('static', filename='uploads/' + complaint.image) }}"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="image-link">
+
+                                        <i class="bi bi-image"></i>
+
+                                        View Image
+
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="text-muted">N/A</span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if complaint.status == 'Resolved' %}
+
+                                    <span class="status-badge resolved-badge">
+
+                                        <i class="bi bi-check-circle"></i>
+
+                                        Resolved
+
+                                    </span>
+
+                                {% elif complaint.status == 'In Progress' %}
+
+                                    <span class="status-badge progress-badge">
+
+                                        <i class="bi bi-arrow-repeat"></i>
+
+                                        In Progress
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-badge pending-badge">
+
+                                        <i class="bi bi-clock"></i>
+
+                                        Pending
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="badge bg-secondary">
+
+                                    {{ complaint.priority }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+
+                                <form method="POST"
+                                      action="{{ url_for('update_complaint', complaint_id=complaint.complaint_id) }}"
+                                      class="update-form">
+
+
+                                    <select name="status"
+                                            class="form-select"
+                                            aria-label="Complaint status">
+
+                                        {% for status in statuses %}
+
+                                            <option value="{{ status }}"
+                                                {% if complaint.status == status %}
+                                                    selected
+                                                {% endif %}>
+
+                                                {{ status }}
+
+                                            </option>
+
+                                        {% endfor %}
+
+                                    </select>
+
+
+                                    <select name="priority"
+                                            class="form-select"
+                                            aria-label="Complaint priority">
+
+                                        {% for priority in priorities %}
+
+                                            <option value="{{ priority }}"
+                                                {% if complaint.priority == priority %}
+                                                    selected
+                                                {% endif %}>
+
+                                                {{ priority }}
+
+                                            </option>
+
+                                        {% endfor %}
+
+                                    </select>
+
+
+                                    <button type="submit"
+                                            class="btn btn-primary btn-sm update-btn">
+
+                                        <i class="bi bi-arrow-repeat"></i>
+
+                                        Update
+
+                                    </button>
+
+
+                                </form>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% else %}
+
+
+                        <tr>
+
+                            <td colspan="9"
+                                class="text-center text-muted py-5">
+
+                                <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+
+                                No complaints available.
+
+                            </td>
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        © 2026 CampusCare | Administrator Panel
+
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+</body>
+
+</html>
