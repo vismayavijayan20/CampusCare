@@ -1,12 +1,17 @@
-from werkzeug.security import generate_password_hash
+import os
+from getpass import getpass
 
 from app import app
 from models import db, User
+from werkzeug.security import generate_password_hash
 
 
 with app.app_context():
 
-    email = "admin@college.com"
+    email = os.environ.get("ADMIN_EMAIL", "").strip().lower()
+
+    if not email:
+        email = input("Enter administrator email: ").strip().lower()
 
     existing = User.query.filter_by(email=email).first()
 
@@ -14,11 +19,25 @@ with app.app_context():
         print("Administrator already exists.")
 
     else:
+        name = input("Enter administrator name: ").strip()
+        password = getpass("Enter administrator password: ")
+        confirm_password = getpass("Confirm administrator password: ")
+
+        if not name or not email:
+            raise ValueError("Name and email are required.")
+
+        if len(password) < 12:
+            raise ValueError(
+                "Password must contain at least 12 characters."
+            )
+
+        if password != confirm_password:
+            raise ValueError("Passwords do not match.")
 
         admin = User(
-            name="College Administrator",
+            name=name,
             email=email,
-            password=generate_password_hash("Admin@123"),
+            password=generate_password_hash(password),
             role="Admin"
         )
 
